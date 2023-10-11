@@ -7,6 +7,7 @@ const btnUp = $('#up');
 const btnLeft = $('#left');
 const btnRight = $('#right');
 const btnDown = $('#down');
+const spanLives = $('#lives');
 
 let canvasSize;
 let elementSize;
@@ -62,11 +63,14 @@ function startGame() {
 
   if (!map) {
     gameWin();
+    return;
   }
 
   const mapRows = map.trim().split('\n');
   const mapRowCols = mapRows.map(row => row.trim().split('')); 
   console.log({map, mapRows, mapRowCols});
+//Class 16 mandamos a llamar a la función 
+  showLives();
 
 // Class 13  Limpiamos nuestro arreglo  
   enemyPositions = [];  
@@ -155,15 +159,29 @@ function gameWin() {
 }
 //Class 15  Creamos una función para volver a colocar las posiciones UNDEFINED
 function levelFail() {
-
+  console.log('Chocaste contra una bomba BOOM!!!');
   lives--;
+
+
   if (lives <= 0) {
     level = 0;
+    lives = 3;
   }
-  console.log('Chocaste contra una bomba BOOM!!!');
+  
   playerPosition.x = undefined;
   playerPosition.y = undefined;
   startGame ();
+}
+
+//Class 16 Función para mostrarle al jugador cuantas vidas le quedan
+function showLives() {
+  // me crea un array con mi variable LIVES  [1,2,3]
+  const heartsArray =  Array(lives).fill(emojis['HEART']);
+  console.log(heartsArray);  
+  
+  spanLives.innerHTML = ""; // lIMPIAMOS las vidas cada vez que recarguemos
+  heartsArray.forEach(heart => spanLives.append(heart));
+  // spanLives.innerHTML =  emojis['HEART'];
 }
 
 window.addEventListener('keydown', moveByKeys);

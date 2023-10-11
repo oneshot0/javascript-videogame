@@ -12,6 +12,8 @@ let canvasSize;
 let elementSize;
 // CLASS 14 : creamos la variable para el cambio de niveles 
 let level = 0;
+// CLASS 15 : creamos la variable para las vidas
+let lives = 3;
 
 const playerPosition = {
   x: undefined,
@@ -134,6 +136,7 @@ function movePlayer() {
 
   if (enemyCollision) {
     // console.log('Hubo colisió!!! :c');
+    levelFail();
   }
 
   game.fillText(emojis['PLAYER'],playerPosition.x, playerPosition.y);
@@ -149,6 +152,18 @@ function levelWin() {
 function gameWin() {
   console.log('TERMINASTE EL JUEGO !!!');
   return;
+}
+//Class 15  Creamos una función para volver a colocar las posiciones UNDEFINED
+function levelFail() {
+
+  lives--;
+  if (lives <= 0) {
+    level = 0;
+  }
+  console.log('Chocaste contra una bomba BOOM!!!');
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
+  startGame ();
 }
 
 window.addEventListener('keydown', moveByKeys);

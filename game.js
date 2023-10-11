@@ -8,6 +8,7 @@ const btnLeft = $('#left');
 const btnRight = $('#right');
 const btnDown = $('#down');
 const spanLives = $('#lives');
+const spanTime = $('#time');
 
 let canvasSize;
 let elementSize;
@@ -15,6 +16,10 @@ let elementSize;
 let level = 0;
 // CLASS 15 : creamos la variable para las vidas
 let lives = 3;
+//Class 17  Variables para medir el tiempo 
+let timeStart;
+let timePlayer;
+let timeInterval;
 
 const playerPosition = {
   x: undefined,
@@ -64,6 +69,11 @@ function startGame() {
   if (!map) {
     gameWin();
     return;
+  }
+//class 17 : condicional  para saber que empezamos a jugar  y a correr el tiempo
+  if (!timeStart) {
+    timeStart = Date.now();
+    timeInterval = setInterval(showTime,100); 
   }
 
   const mapRows = map.trim().split('\n');
@@ -155,6 +165,8 @@ function levelWin() {
 
 function gameWin() {
   console.log('TERMINASTE EL JUEGO !!!');
+  //class 17 : Al terminar el juego colocamos un clearInterval para finalizar el tiempo 
+  clearInterval(timeInterval);
   return;
 }
 //Class 15  Creamos una función para volver a colocar las posiciones UNDEFINED
@@ -166,6 +178,8 @@ function levelFail() {
   if (lives <= 0) {
     level = 0;
     lives = 3;
+    //Class 17  Reseteamos el tiempo.
+    timeStart = undefined;
   }
   
   playerPosition.x = undefined;
@@ -182,6 +196,21 @@ function showLives() {
   spanLives.innerHTML = ""; // lIMPIAMOS las vidas cada vez que recarguemos
   heartsArray.forEach(heart => spanLives.append(heart));
   // spanLives.innerHTML =  emojis['HEART'];
+}
+
+//Class Función para mostrar el tiempo del jugador 
+function showTime() {
+  spanTime.innerHTML = formatTime(Date.now()-timeStart);
+}
+
+function formatTime(ms){
+    const cs = parseInt(ms/10) % 100
+    const seg = parseInt(ms/1000) % 60
+    const min = parseInt(ms/60000) % 60
+    const csStr = `${cs}`.padStart(2,"0")
+    const segStr = `${seg}`.padStart(2,"0")
+    const minStr = `${min}`.padStart(2,"0")
+    return`${minStr}:${segStr}:${csStr}`
 }
 
 window.addEventListener('keydown', moveByKeys);

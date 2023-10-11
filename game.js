@@ -11,6 +11,15 @@ const btnDown = $('#down');
 let canvasSize;
 let elementSize;
 
+const playerPosition = {
+  x: undefined,
+  y: undefined,
+};
+
+const giftPosition = {
+  
+};
+
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
 
@@ -32,19 +41,21 @@ function setCanvasSize() {
   
   // Aquí dividimos el canvasSize por la cantidad de elementos a insertar
   elementSize = canvasSize /10.3 ;
-  starGame();
+  startGame();
 }
 
-function starGame() {
+function startGame() {
   // game.loquesea()
   console.log({canvasSize, elementSize});
-  game.font = `${elementSize}px Arial`;
-  game.textAlign = 'start';
+  game.font = `${elementSize}px arial`;
+  game.textAlign = '';
 
   const map = maps[0];
   const mapRows = map.trim().split('\n');
   const mapRowCols = mapRows.map(row => row.trim().split('')); 
   console.log({map, mapRows, mapRowCols});
+//Nos ayuda a limpiar el mapa 
+  game.clearRect(0,0,canvasSize, canvasSize);
 
   //filas y columnas VERSIÓN 0.2 ----------------
   mapRowCols.forEach((row, rowI) =>  {
@@ -52,12 +63,20 @@ function starGame() {
       const emoji = emojis[col];
       const posX = elementSize * (colI)
       const posY = elementSize * (rowI + 1)
+
+  // Colocamos un doble condicional para actualizar las coordenadas y no redefinirlas en su posición inicial
+      if (col == 'O') {
+        if (!playerPosition.x && !playerPosition.y) {
+          playerPosition.x = posX;
+          playerPosition.y = posY;
+          console.log({playerPosition});
+        }
+      }
       game.fillText(emoji, posX , posY)
-      console.log({row, rowI, col, colI});
+      // console.log({row, rowI, col, colI});
     });    
   });
-
-
+  movePlayer()
   //filas y columnas VERSION 0.1-----------------
   // for (let row = 1; row <= 10; row++) {
   //   for (let col = 0; col < 10; col++) {
@@ -66,5 +85,70 @@ function starGame() {
   // }
 };
 
+function movePlayer() {
+    game.fillText(emojis['PLAYER'],playerPosition.x, playerPosition.y);
+    
+  }
+
+window.addEventListener('keydown', moveByKeys);
+btnUp.addEventListener('click', moveUp);
+btnLeft.addEventListener('click', moveLeft);
+btnRight.addEventListener('click', moveRight);
+btnDown.addEventListener('click', moveDown);
+
+function moveByKeys(event) {
+    const moveFunctions = {
+        ArrowUp: moveUp,
+        ArrowLeft: moveLeft,
+        ArrowRight: moveRight,
+        ArrowDown: moveDown
+      };
+    
+      const moveFunction = moveFunctions[event.key];
+      console.log({moveFunction});
+      if (moveFunction) {
+        moveFunction();
+      }
+}
+
+// function moveByKeys(event) {
+//   if (event.key == 'ArrowUp') moveUP();
+//   else if (event.key == 'ArrowLeft') moveLeft();
+//   else if (event.key == 'ArrowRight') moveRight();
+//   else if (event.key == 'ArrowDown') moveDown();
+  
+// }
+function moveUp() {
+    if ((playerPosition.y - elementSize) < elementSize ) {
+        console.log("OUT");
+    } else {
+      playerPosition.y -= elementSize;
+      startGame()
+    }
+}
+function moveLeft() {
+    if ((playerPosition.x - elementSize) < elementSize ) {
+        console.log("OUT");
+    } else {
+      playerPosition.x  -= elementSize;
+      startGame()
+    }
+}
+function moveRight() {
+    if ((playerPosition.x + elementSize) > canvasSize -elementSize ) {
+        console.log("OUT");
+    } else {
+      playerPosition.x  += elementSize;
+      startGame()
+    } 
+}
+function moveDown() {
+    if ((playerPosition.y + elementSize) > canvasSize ) {
+        console.log("OUT");
+    } else {
+      playerPosition.y  += elementSize;
+      startGame()
+    } 
+}
 
 

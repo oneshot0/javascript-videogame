@@ -9,6 +9,8 @@ const btnRight = $('#right');
 const btnDown = $('#down');
 const spanLives = $('#lives');
 const spanTime = $('#time');
+const spanRecord = $('#record');
+const pResult = $('#result')
 
 let canvasSize;
 let elementSize;
@@ -33,6 +35,9 @@ const giftPosition = {
 };
 // Class 13 : Creando arreglo de enemigos
   let enemyPositions = [];
+
+//Incorporando fuego en las colisiones
+let firePosition = [];
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
@@ -68,12 +73,14 @@ function startGame() {
 
   if (!map) {
     gameWin();
-    return;
+    return
   }
 //class 17 : condicional  para saber que empezamos a jugar  y a correr el tiempo
   if (!timeStart) {
     timeStart = Date.now();
     timeInterval = setInterval(showTime,100); 
+  //Class 19  creamos la función para que nos muestre el record
+  showRecord()
   }
 
   const mapRows = map.trim().split('\n');
@@ -121,6 +128,8 @@ function startGame() {
     });    
   });
   movePlayer()
+
+  firePosition.forEach( fire => game.fillText(emojis['BOMB_COLLISION'],fire.x,fire.y));
   //filas y columnas VERSION 0.1-----------------
   // for (let row = 1; row <= 10; row++) {
   //   for (let col = 0; col < 10; col++) {
@@ -130,8 +139,8 @@ function startGame() {
 };
 
 function movePlayer() {
-  const giftCollisionX = playerPosition.x.toFixed(2) == giftPosition.x.toFixed(2)
-  const giftCollisionY = playerPosition.y.toFixed(2) == giftPosition.y.toFixed(2)
+  const giftCollisionX = playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3)
+  const giftCollisionY = playerPosition.y.toFixed(3) == giftPosition.y.toFixed(3)
   const giftCollision = giftCollisionX && giftCollisionY
 
   console.log({giftCollisionX, giftCollisionY});
@@ -145,31 +154,33 @@ function movePlayer() {
   const enemyCollision = enemyPositions.find(enemy => {
     const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3);
     const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3);
+    
     return enemyCollisionX && enemyCollisionY;
   });
+  
 
   if (enemyCollision) {
     // console.log('Hubo colisió!!! :c');
+    firePosition.push({x:playerPosition.x.toFixed(3), y:playerPosition.y.toFixed(3)});
+    renderizarFire();
     levelFail();
   }
 
   game.fillText(emojis['PLAYER'],playerPosition.x, playerPosition.y);
     
 }
+function renderizarFire(){
+  game.fillText(emojis['BOMB_COLLISION'],firePosition.x,firePosition.y)
+}
+
 
 function levelWin() {
   console.log('Subiste de nivel!!');
   level++;
+  firePosition = [],
   startGame();
 }
 
-function gameWin() {
-  console.log('TERMINASTE EL JUEGO !!!');
-  //class 17 : Al terminar el juego colocamos un clearInterval para finalizar el tiempo 
-  clearInterval(timeInterval);
-  return;
-}
-//Class 15  Creamos una función para volver a colocar las posiciones UNDEFINED
 function levelFail() {
   console.log('Chocaste contra una bomba BOOM!!!');
   lives--;
@@ -180,12 +191,46 @@ function levelFail() {
     lives = 3;
     //Class 17  Reseteamos el tiempo.
     timeStart = undefined;
+    firePosition = []
   }
   
   playerPosition.x = undefined;
   playerPosition.y = undefined;
-  startGame ();
+  startGame();
 }
+
+
+
+//Class 19  Creamos la función showRecord
+function showRecord() {
+  spanRecord.innerHTML = localStorage.getItem('record');
+}
+
+function gameWin() {
+  // console.log('TERMINASTE EL JUEGO !!!');
+  //class 17 : Al terminar el juego colocamos un clearInterval para finalizar el tiempo 
+  clearInterval(timeInterval);
+  
+  const recordTime = localStorage.getItem('record');
+  const playerTime = Date.now() - timeStart;
+  window.removeEventListener('keydown', moveByKeys);
+  
+  if (recordTime) {    
+    if (recordTime  >= playerTime) {
+      localStorage.setItem('record', playerTime);
+      pResult.innerHTML = 'SUPERASTE EL RECORD !! 🥳🍻';
+    }else {
+      pResult.innerHTML = 'lo siento no superaste el record de 😔';
+    }
+  }else {
+    localStorage.setItem('record',playerTime);
+    pResult.innerHTML = 'Primera vez? Trata de superar tus límites ⏱️';
+
+  }
+  console.log({recordTime, playerTime});
+
+}
+//Class 15  Creamos una función para volver a colocar las posiciones UNDEFINED
 
 //Class 16 Función para mostrarle al jugador cuantas vidas le quedan
 function showLives() {
@@ -200,7 +245,7 @@ function showLives() {
 
 //Class Función para mostrar el tiempo del jugador 
 function showTime() {
-  spanTime.innerHTML = formatTime(Date.now()-timeStart);
+  spanTime.innerHTML = formatTime(Date.now() - timeStart);
 }
 
 function formatTime(ms){

@@ -1,3 +1,24 @@
+:root {
+    --primary1: #8631d1;
+    --primary2: #D09CFA;
+    --secondary1: #748ef5;
+    --secondary2: #141E46;
+    --dark1: #3b3c3d;
+    --dark2: #393E46;
+    --dark3: #656c75;
+    --light: #EEEEEE;
+    --light2: #dddddd;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.inactive{
+    display: none !important;
+}
+
 body {
     background-color: indigo;
     color: #fff;
@@ -51,11 +72,18 @@ button:not(:last-child) {
     max-width: 460px;
 }
 
-p {
+.messages > p {
     display: block;
     margin: 0;
+    margin-bottom: 8px;
     width: 100%;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--light2);
 }
+
+
+
 
 @media (max-width: 440px) {
     /* Aquí se acomodan los botones (resonsive) */

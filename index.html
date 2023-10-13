@@ -7,24 +7,30 @@
   <title>Jefrys - Jueguito online de carreras y calaveras</title>
 </head>
 <body>
-  <div class="game-container">
-    <canvas id="game"></canvas>
-    <div class="btns">
-      <button id="up">Arriba</button>
-      <button id="left">Izqiuerda</button>
-      <button id="right">Derecha</button>
-      <button id="down">Abajo</button>
+  <main>
+    <div class="game-container">
+      <canvas id="game"></canvas>
+      <div class="btns">
+        <button id="up">Arriba</button>
+        <button id="left">Izqiuerda</button>
+        <button id="right">Derecha</button>
+        <button id="down">Abajo</button>
+      </div>
+  
+      <div class="messages">
+        <!-- Pendiente TODO -->
+        <p>VIDAS: <span id="lives"></span></p>
+        <p>TIEMPO: ⏱️ <span id="time"></span></p>
+    <!-- Class 19 : Html para mostrar el tiempo de juego y record -->
+        <p>RECORD: 🥳 <span id="record"></span></p>
+        <p id="result"></p>
+      </div>
+  
     </div>
+  </main>
+  
+    <script src="./js/maps.js"></script>
+    <script src="./js/game.js"></script>
 
-    <div class="messages">
-      <!-- Pendiente TODO -->
-      <p>VIDAS: <span id="lives"></span></p>
-      <p>TIEMPO: <span id="time"></span></p>
-    </div>
-
-  </div>
-
-  <script src="./maps.js"></script>
-  <script src="./game.js"></script>
 </body>
 </html>

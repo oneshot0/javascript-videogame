@@ -57,12 +57,15 @@ function setCanvasSize() {
       ? window.innerWidth * 0.8
       : window.innerHeight * 0.8;
 
+  canvasSize = Number(canvasSize.toFixed(0));
 
   canvas.setAttribute('width', canvasSize)
   canvas.setAttribute('height', canvasSize)
   
   // Aquí dividimos el canvasSize por la cantidad de elementos a insertar
   elementSize = canvasSize /10.3 ;
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
   welcome();
 }
 
@@ -214,6 +217,7 @@ function gameWin() {
   //class 17 : Al terminar el juego colocamos un clearInterval para finalizar el tiempo 
   clearInterval(timeInterval);
   
+//Class 19 Empezamos a crear las variables para los tiempos 
   const recordTime = localStorage.getItem('record');
   const playerTime = Date.now() - timeStart;
   window.removeEventListener('keydown', moveByKeys);
@@ -223,7 +227,7 @@ function gameWin() {
       localStorage.setItem('record', playerTime);
       pResult.innerHTML = 'SUPERASTE EL RECORD !! 🥳🍻';
     }else {
-      pResult.innerHTML = 'lo siento no superaste el record de 😔';
+      pResult.innerHTML = 'No superaste tus límites 😔';
     }
   }else {
     localStorage.setItem('record',playerTime);

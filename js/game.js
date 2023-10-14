@@ -11,6 +11,9 @@ const spanLives = $('#lives');
 const spanTime = $('#time');
 const spanRecord = $('#record');
 const pResult = $('#result')
+//PANTALLA DE INICIO
+const welcomeCard = $('.welcome-message');
+const initialGame = $('#initial-play');
 
 let canvasSize;
 let elementSize;
@@ -60,7 +63,7 @@ function setCanvasSize() {
   
   // Aquí dividimos el canvasSize por la cantidad de elementos a insertar
   elementSize = canvasSize /10.3 ;
-  startGame();
+  welcome();
 }
 
 function startGame() {
@@ -319,4 +322,14 @@ function moveDown() {
     } 
 }
 
+function welcome() {
+  welcomeCard.classList.remove('inactive');
+}
+initialGame.addEventListener('click', initial);
+
+function initial() {
+  welcomeCard.classList.add("inactive");
+  timeStart = null;
+  startGame();
+}
 

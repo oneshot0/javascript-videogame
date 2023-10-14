@@ -14,10 +14,17 @@ const pResult = $('#result')
 //PANTALLA DE INICIO
 const welcomeCard = $('.welcome-message');
 const initialGame = $('#initial-play');
-//PANTALLA DE RECORD
+//PANTALLA DE nuevo RECORD
 const newRecordCard = $('.message--record');
 const newRecordPlace = $('.new--record');
 const playAgainButton1 = $('#record-play-again');
+//Pantalla de victoria SIN RECORD
+const victoryCard = $('.win-without-record');
+const playAgainButton2 = $('#record-play-again2');
+//Pantalla de derrota por vidas
+const defeatCard = $('.message--defeat');
+const playAgainButton3 = $('#record-play-again3');
+
 
 let canvasSize;
 let elementSize;
@@ -49,13 +56,18 @@ let firePosition = [];
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
 
-playAgainButton1.addEventListener('click', playAgain)
+playAgainButton1.addEventListener('click', playAgain);
+playAgainButton2.addEventListener('click', playAgain);
+playAgainButton3.addEventListener('click', playAgain);
 
 function playAgain() {
   newRecordCard.classList.add('inactive');
-  timeStart=null;
-  startGame()
+  timeStart= null;
+  location.reload();
+  
 }
+
+
 
 
 function setCanvasSize() {
@@ -91,7 +103,7 @@ function startGame() {
 
   if (!map) {
     gameWin();
-    return
+    return;
   }
 //class 17 : condicional  para saber que empezamos a jugar  y a correr el tiempo
   if (!timeStart) {
@@ -103,7 +115,7 @@ function startGame() {
 
   const mapRows = map.trim().split('\n');
   const mapRowCols = mapRows.map(row => row.trim().split('')); 
-  console.log({map, mapRows, mapRowCols});
+  
 //Class 16 mandamos a llamar a la función 
   showLives();
 
@@ -125,7 +137,7 @@ function startGame() {
         if (!playerPosition.x && !playerPosition.y) {
           playerPosition.x = posX;
           playerPosition.y = posY;
-          console.log({playerPosition});
+          // console.log({playerPosition});
         }
   // Ubicar posición del regalo (clase 12)
       }else if (col == 'I') {
@@ -154,7 +166,7 @@ function startGame() {
   //     game.fillText(emojis[mapRowCols[row - 1][ col]], elementSize* col , elementSize* row);
   //   }
   // }
-};
+}
 
 function movePlayer() {
   const giftCollisionX = playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3)
@@ -210,6 +222,7 @@ function levelFail() {
     //Class 17  Reseteamos el tiempo.
     timeStart = undefined;
     firePosition = []
+    defeatCard.classList.remove('inactive');
   }
   
   playerPosition.x = undefined;
@@ -225,7 +238,7 @@ function showRecord() {
 }
 
 function gameWin() {
-  // console.log('TERMINASTE EL JUEGO !!!');
+  console.log('TERMINASTE EL JUEGO !!!');
   //class 17 : Al terminar el juego colocamos un clearInterval para finalizar el tiempo 
   clearInterval(timeInterval);
   
@@ -238,19 +251,28 @@ function gameWin() {
     if (recordTime  >= playerTime) {
       localStorage.setItem('record', playerTime);
       pResult.innerHTML = 'SUPERASTE EL RECORD !! 🥳🍻';
-      newRecordCard.classList.remove("inactive")
+      newRecordCard.classList.remove("inactive");
       newRecordPlace.innerHTML = formatTime(recordTime);
     }else {
       pResult.innerHTML = 'No superaste tus límites 😔';
+      victoryCard.classList.remove('inactive');
     }
-  }else {
-    localStorage.setItem('record',playerTime);
-    pResult.innerHTML = 'Primera vez? Trata de superar tus límites ⏱️';
-
+  } else {
+    localStorage.setItem('record', playerTime);
+    victoryCard.classList.remove('inactive');
   }
-  console.log({recordTime, playerTime});
 
+
+    // if (localStorage.length == 0) {
+    //   localStorage.setItem('record',playerTime);
+    //   victoryCard.classList.remove('inactive');
+      
+    // }
+  
+    
+  console.log({recordTime, playerTime});
 }
+
 //Class 15  Creamos una función para volver a colocar las posiciones UNDEFINED
 
 //Class 16 Función para mostrarle al jugador cuantas vidas le quedan

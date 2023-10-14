@@ -6,6 +6,7 @@ El videojuego ha sido elaborado durante las sesiones del taller de [Platzi](http
 |Incorporación de fuego 🔥 en las colisiones contra las bombas |
 |Contador de tiempo ⏱ en segundos + 2 decimales|
 |Pantalla de inicio del juego 🤠|
+|Tarjetas interactivas al perder, ganar sin récord y ganar con nuevo récord|
 
 
 _________

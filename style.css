@@ -69,27 +69,28 @@ body {
     letter-spacing: 4px;
     text-align: center;
 }
-/* MENSAJES DE JUEGO RECORD */
-.message--record {
-    position: absolute;
-    width: 300px;
+/* MENSAJES DE JUEGO nuevo RECORD */
+.message--record , .win-without-record , .message--defeat {
+    width: 500px;
     height: auto;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     text-align: center;
-    border: 2px solid #fee3e2;
+    /*background-color: #FEE3E2;*/
+    border: 2px solid #FEE3E2;
     border-radius: 5px;
-    box-shadow: 0px 1px 10px #fee3e2;
+    box-shadow: 0px 1px 10px #FEE3E2;
     font-family: 'Roboto', sans-serif;
     font-size: 18px;
-    color: #fee3e2;
+    color: #FEE3E2;
     font-weight: 700;
-    row-gap: 15px;
+    row-gap: 24px;
     padding: 10px 10px 20px 10px;
-    padding: absolute;
+    position: absolute;
     top: 40%;
-    left: calc(50% - 150px);
+    right: 0;
+    left: 0;
     align-items: center;
     background-image: url(./assets/fondo_record.jpg);
     background-repeat: no-repeat;
@@ -97,7 +98,7 @@ body {
     background-size: cover;
 }
 
-.message--record .button--standar {
+.message--record .button--standar, .win-without-record .button--standar, .message--defeat .button--standar{
     cursor: pointer;
     width: 100%;
     padding: 10px 0;
@@ -112,7 +113,7 @@ body {
     text-align: center;
 }
 
-.fa-ranking-star{
+.fa-ranking-star, .fa-trophy, .fa-ghost{
     font-size:40px;
 }
 
@@ -130,6 +131,49 @@ body {
     background-size: cover;
     
 }
+/* Mensaje al ganar sin nuevo record */
+
+.win-without-record{
+    background-image: url(./assets/fondo_norecord.jpg);
+    border: 2px solid #d5f9e8;
+    box-shadow: 0px 1px 10px #d5f9e8;
+    padding: 20px 10px 20px 10px;
+} 
+
+.win-without-record .button--standar {
+    background-color: #d5f9e8;
+    color: #17d22c;
+    border: 2px  solid #17d22c;
+    box-shadow: 0px 0px 4px 5px #d5f9e8;
+}
+.win-without-record p {
+    color: #fef2b6;
+}
+
+.fa-trophy{
+    width: 100px;
+    height: 100px;
+    background-image: url(./assets/trofeo.svg);
+    background-repeat:no-repeat ;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: #fef2b6;
+}
+
+/* Mensaje si pierder las 3 vidas */
+
+.fa-ghost {
+    width: 100px;
+    height: 100px;
+    background-image: url(./assets/ghost.svg);
+    background-repeat:no-repeat ;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: #fef2b6;
+}
+
 
 .fa-gamepad {
     font-size: 60px;

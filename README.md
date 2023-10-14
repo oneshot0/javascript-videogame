@@ -9,3 +9,11 @@ El videojuego ha sido elaborado durante las sesiones del taller de [Platzi](http
 
 
 _________
+
+
+📌Prueba la [demo del juego 🎮](https://oneshot0.github.io/javascript-videogame/) ⭐⭐⭐⭐⭐
+
+📌Échale un vistazo al [repositorio de GitHub](https://github.com/oneshot0/javascript-videogame)  
+
+📌Échale un vistazo al [Taller de Platzi](https://platzi.com/cursos/javascript-practico-videojuegos/)  
+

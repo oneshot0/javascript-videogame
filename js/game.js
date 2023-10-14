@@ -14,6 +14,10 @@ const pResult = $('#result')
 //PANTALLA DE INICIO
 const welcomeCard = $('.welcome-message');
 const initialGame = $('#initial-play');
+//PANTALLA DE RECORD
+const newRecordCard = $('.message--record');
+const newRecordPlace = $('.new--record');
+const playAgainButton1 = $('#record-play-again');
 
 let canvasSize;
 let elementSize;
@@ -44,6 +48,14 @@ let firePosition = [];
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
+
+playAgainButton1.addEventListener('click', playAgain)
+
+function playAgain() {
+  newRecordCard.classList.add('inactive');
+  timeStart=null;
+  startGame()
+}
 
 
 function setCanvasSize() {
@@ -209,7 +221,7 @@ function levelFail() {
 
 //Class 19  Creamos la función showRecord
 function showRecord() {
-  spanRecord.innerHTML = localStorage.getItem('record');
+  spanRecord.innerHTML = formatTime(localStorage.getItem('record'));
 }
 
 function gameWin() {
@@ -226,6 +238,8 @@ function gameWin() {
     if (recordTime  >= playerTime) {
       localStorage.setItem('record', playerTime);
       pResult.innerHTML = 'SUPERASTE EL RECORD !! 🥳🍻';
+      newRecordCard.classList.remove("inactive")
+      newRecordPlace.innerHTML = formatTime(recordTime);
     }else {
       pResult.innerHTML = 'No superaste tus límites 😔';
     }
@@ -336,4 +350,5 @@ function initial() {
   timeStart = null;
   startGame();
 }
+
 

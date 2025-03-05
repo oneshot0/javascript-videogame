@@ -9,6 +9,7 @@ El videojuego ha sido elaborado durante las sesiones del taller de [Platzi](http
 |Tarjetas interactivas al perder, ganar sin récord y ganar con nuevo récord|
 
 
+
 _________
 
 
